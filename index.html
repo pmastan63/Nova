@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOVA</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f5f7fb;
+  color: #222;
+}
+
+header {
+  background: white;
+  padding: 20px;
+  font-size: 26px;
+  font-weight: bold;
+  border-bottom: 1px solid #ddd;
+}
+
+.container {
+  max-width: 700px;
+  margin: auto;
+  padding: 25px 18px;
+}
+
+h1 {
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  color: #666;
+  margin-bottom: 25px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.card {
+  background: white;
+  padding: 25px 18px;
+  border-radius: 18px;
+  border: 1px solid #e3e6ec;
+  cursor: pointer;
+}
+
+.icon {
+  font-size: 36px;
+  margin-bottom: 12px;
+}
+
+.card h2 {
+  font-size: 19px;
+  margin-bottom: 6px;
+}
+
+.card p {
+  color: #777;
+  font-size: 14px;
+}
+
+@media (max-width: 500px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>🌌 NOVA</header>
+
+<main class="container">
+
+<h1>Welcome to NOVA 👋</h1>
+<p class="subtitle">Your world, in one place.</p>
+
+<div class="grid">
+
+<div class="card">
+<div class="icon">💬</div>
+<h2>Chat</h2>
+<p>Talk with friends and family.</p>
+</div>
+
+<div class="card">
+<div class="icon">🤖</div>
+<h2>AI</h2>
+<p>Ask NOVA anything.</p>
+</div>
+
+<div class="card">
+<div class="icon">📰</div>
+<h2>News</h2>
+<p>Stay updated with the latest news.</p>
+</div>
+
+<div class="card">
+<div class="icon">🎮</div>
+<h2>Games</h2>
+<p>Play simple games.</p>
+</div>
+
+</div>
+
+</main>
+
+</body>
+</html>
