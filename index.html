@@ -1,121 +1,304 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NOVA</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NOVA 🌌</title>
 
-<style>
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-body {
-  font-family: Arial, sans-serif;
-  background: #f5f7fb;
-  color: #222;
-}
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
 
-header {
-  background: white;
-  padding: 20px;
-  font-size: 26px;
-  font-weight: bold;
-  border-bottom: 1px solid #ddd;
-}
+    body {
+      margin: 0;
+      background: #f5f7fb;
+      color: #111;
+    }
 
-.container {
-  max-width: 700px;
-  margin: auto;
-  padding: 25px 18px;
-}
+    header {
+      background: #111827;
+      color: white;
+      padding: 18px 20px;
+      font-size: 24px;
+      font-weight: bold;
+    }
 
-h1 {
-  margin-bottom: 8px;
-}
+    .container {
+      max-width: 600px;
+      margin: auto;
+      padding: 25px 18px;
+    }
 
-.subtitle {
-  color: #666;
-  margin-bottom: 25px;
-}
+    .card {
+      background: white;
+      padding: 22px;
+      margin: 15px 0;
+      border-radius: 18px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
 
-.grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 15px;
-}
+    input {
+      width: 100%;
+      padding: 14px;
+      margin: 8px 0;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 16px;
+    }
 
-.card {
-  background: white;
-  padding: 25px 18px;
-  border-radius: 18px;
-  border: 1px solid #e3e6ec;
-  cursor: pointer;
-}
+    button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 10px;
+      background: #111827;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
 
-.icon {
-  font-size: 36px;
-  margin-bottom: 12px;
-}
+    button.secondary {
+      background: #e5e7eb;
+      color: #111;
+    }
 
-.card h2 {
-  font-size: 19px;
-  margin-bottom: 6px;
-}
+    .feature {
+      padding: 20px;
+      margin: 12px 0;
+      border-radius: 16px;
+      background: white;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+      font-size: 18px;
+    }
 
-.card p {
-  color: #777;
-  font-size: 14px;
-}
+    #message {
+      margin-top: 12px;
+      text-align: center;
+      font-size: 14px;
+    }
 
-@media (max-width: 500px) {
-  .grid {
-    grid-template-columns: 1fr;
-  }
-}
-</style>
+    #app {
+      display: none;
+    }
+  </style>
 </head>
 
 <body>
 
-<header>🌌 NOVA</header>
+<header>
+  🌌 NOVA
+</header>
 
-<main class="container">
+<div class="container">
 
-<h1>Welcome to NOVA 👋</h1>
-<p class="subtitle">Your world, in one place.</p>
+  <!-- LOGIN -->
+  <div id="login">
 
-<div class="grid">
+    <div class="card">
+      <h2>Welcome to NOVA 👋</h2>
+      <p>Sign in to your NOVA account.</p>
 
-<div class="card">
-<div class="icon">💬</div>
-<h2>Chat</h2>
-<p>Talk with friends and family.</p>
+      <input
+        type="email"
+        id="email"
+        placeholder="Email address"
+      >
+
+      <input
+        type="password"
+        id="password"
+        placeholder="Password"
+      >
+
+      <button onclick="signIn()">Sign In</button>
+
+      <button class="secondary" onclick="signUp()">
+        Create Account
+      </button>
+
+      <div id="message"></div>
+    </div>
+
+  </div>
+
+
+  <!-- NOVA APP -->
+  <div id="app">
+
+    <div class="card">
+      <h2>Welcome to NOVA 🌌</h2>
+      <p id="userEmail"></p>
+
+      <button class="secondary" onclick="signOut()">
+        Sign Out
+      </button>
+    </div>
+
+    <div class="feature">
+      💬 <b>Chat</b>
+      <br>
+      <small>Talk with friends and family.</small>
+    </div>
+
+    <div class="feature">
+      🤖 <b>AI</b>
+      <br>
+      <small>Ask NOVA anything.</small>
+    </div>
+
+    <div class="feature">
+      📰 <b>News</b>
+      <br>
+      <small>Stay updated with the latest news.</small>
+    </div>
+
+    <div class="feature">
+      🎮 <b>Games</b>
+      <br>
+      <small>Play simple games.</small>
+    </div>
+
+  </div>
+
 </div>
 
-<div class="card">
-<div class="icon">🤖</div>
-<h2>AI</h2>
-<p>Ask NOVA anything.</p>
-</div>
 
-<div class="card">
-<div class="icon">📰</div>
-<h2>News</h2>
-<p>Stay updated with the latest news.</p>
-</div>
+<script>
 
-<div class="card">
-<div class="icon">🎮</div>
-<h2>Games</h2>
-<p>Play simple games.</p>
-</div>
+  // ==============================
+  // NOVA + SUPABASE CONNECTION
+  // ==============================
 
-</div>
+  const SUPABASE_URL = "PASTE_YOUR_PROJECT_URL_HERE";
 
-</main>
+  const SUPABASE_PUBLISHABLE_KEY = "PASTE_YOUR_PUBLISHABLE_KEY_HERE";
+
+  const { createClient } = supabase;
+
+  const db = createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+
+  // ==============================
+  // SIGN UP
+  // ==============================
+
+  async function signUp() {
+
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    if (!email || !password) {
+      showMessage("Please enter email and password.");
+      return;
+    }
+
+    const { error } = await db.auth.signUp({
+      email: email,
+      password: password
+    });
+
+    if (error) {
+      showMessage(error.message);
+      return;
+    }
+
+    showMessage(
+      "Account created! Check your email to confirm your account."
+    );
+  }
+
+
+  // ==============================
+  // SIGN IN
+  // ==============================
+
+  async function signIn() {
+
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    if (!email || !password) {
+      showMessage("Please enter email and password.");
+      return;
+    }
+
+    const { error } = await db.auth.signInWithPassword({
+      email: email,
+      password: password
+    });
+
+    if (error) {
+      showMessage(error.message);
+      return;
+    }
+
+    showApp(email);
+  }
+
+
+  // ==============================
+  // SIGN OUT
+  // ==============================
+
+  async function signOut() {
+
+    await db.auth.signOut();
+
+    document.getElementById("app").style.display = "none";
+    document.getElementById("login").style.display = "block";
+  }
+
+
+  // ==============================
+  // CHECK LOGIN
+  // ==============================
+
+  async function checkUser() {
+
+    const {
+      data: { session }
+    } = await db.auth.getSession();
+
+    if (session) {
+      showApp(session.user.email);
+    }
+  }
+
+
+  // ==============================
+  // SHOW APP
+  // ==============================
+
+  function showApp(email) {
+
+    document.getElementById("login").style.display = "none";
+    document.getElementById("app").style.display = "block";
+
+    document.getElementById("userEmail").textContent =
+      "Signed in as: " + email;
+  }
+
+
+  // ==============================
+  // MESSAGE
+  // ==============================
+
+  function showMessage(text) {
+    document.getElementById("message").textContent = text;
+  }
+
+
+  checkUser();
+
+</script>
 
 </body>
 </html>
