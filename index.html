@@ -93,6 +93,7 @@
       text-align: center;
       margin-top: 15px;
       min-height: 20px;
+      word-break: break-word;
     }
   </style>
 </head>
@@ -102,16 +103,34 @@
   <div class="container">
 
     <div class="logo">NOVA 🌌</div>
-    <div class="subtitle">Your world. Connected.</div>
 
-    <div id="signupFields" style="display:none;">
-      <input type="text" id="name" placeholder="Your name">
+    <div class="subtitle">
+      Your world. Connected.
     </div>
 
-    <input type="email" id="email" placeholder="Email address">
-    <input type="password" id="password" placeholder="Password">
+    <div id="signupFields" style="display: none;">
+      <input
+        type="text"
+        id="name"
+        placeholder="Your name"
+      >
+    </div>
 
-    <button id="mainButton">Login</button>
+    <input
+      type="email"
+      id="email"
+      placeholder="Email address"
+    >
+
+    <input
+      type="password"
+      id="password"
+      placeholder="Password"
+    >
+
+    <button id="mainButton">
+      Login
+    </button>
 
     <div class="switch" id="switchMode">
       Don't have an account?
@@ -123,7 +142,6 @@
   </div>
 
 
-  <!-- Firebase -->
   <script type="module">
 
     import { initializeApp }
@@ -142,33 +160,63 @@
     } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
 
-    // Firebase configuration
+    // =========================
+    // FIREBASE CONFIGURATION
+    // =========================
+
     const firebaseConfig = {
+
       apiKey: "AIzaSyCoFEKP43y_K1R5IAJApQCltckle51uOtI",
+
       authDomain: "petrax-nova-9b950.firebaseapp.com",
+
       projectId: "petrax-nova-9b950",
+
       storageBucket: "petrax-nova-9b950.firebasestorage.app",
+
       messagingSenderId: "578838882402",
+
       appId: "1:578838882402:web:a65d56cc913b438712493b",
+
       measurementId: "G-FZGWSCTW7E"
+
     };
 
 
-    // Start Firebase
+    // =========================
+    // START FIREBASE
+    // =========================
+
     const app = initializeApp(firebaseConfig);
+
     const auth = getAuth(app);
+
     const db = getFirestore(app);
 
 
+    // =========================
+    // VARIABLES
+    // =========================
+
     let signupMode = false;
 
-    const mainButton = document.getElementById("mainButton");
-    const switchMode = document.getElementById("switchMode");
-    const signupFields = document.getElementById("signupFields");
-    const message = document.getElementById("message");
+    const mainButton =
+      document.getElementById("mainButton");
+
+    const switchMode =
+      document.getElementById("switchMode");
+
+    const signupFields =
+      document.getElementById("signupFields");
+
+    const message =
+      document.getElementById("message");
 
 
-    // Switch Login / Signup
+    // =========================
+    // LOGIN / SIGNUP SWITCH
+    // =========================
+
     switchMode.addEventListener("click", () => {
 
       signupMode = !signupMode;
@@ -177,7 +225,8 @@
 
         signupFields.style.display = "block";
 
-        mainButton.textContent = "Create Account";
+        mainButton.textContent =
+          "Create Account";
 
         switchMode.innerHTML =
           'Already have an account? <span>Login</span>';
@@ -186,17 +235,22 @@
 
         signupFields.style.display = "none";
 
-        mainButton.textContent = "Login";
+        mainButton.textContent =
+          "Login";
 
         switchMode.innerHTML =
           'Don\'t have an account? <span>Sign up</span>';
       }
 
       message.textContent = "";
+
     });
 
 
-    // Login / Signup
+    // =========================
+    // LOGIN / CREATE ACCOUNT
+    // =========================
+
     mainButton.addEventListener("click", async () => {
 
       const email =
@@ -209,6 +263,11 @@
         document.getElementById("name").value.trim();
 
 
+      message.textContent = "";
+
+
+      // Check email/password
+
       if (!email || !password) {
 
         message.textContent =
@@ -218,7 +277,22 @@
       }
 
 
+      // Password length
+
+      if (password.length < 6) {
+
+        message.textContent =
+          "Password must be at least 6 characters.";
+
+        return;
+      }
+
+
       try {
+
+        // =========================
+        // SIGN UP
+        // =========================
 
         if (signupMode) {
 
@@ -239,10 +313,12 @@
             );
 
 
-          const user = userCredential.user;
+          const user =
+            userCredential.user;
 
 
-          // Create user profile
+          // Save profile in Firestore
+
           await setDoc(
             doc(db, "users", user.uid),
             {
@@ -256,7 +332,14 @@
           message.textContent =
             "Account created successfully! 🎉";
 
-        } else {
+
+        }
+
+        // =========================
+        // LOGIN
+        // =========================
+
+        else {
 
           await signInWithEmailAndPassword(
             auth,
@@ -270,14 +353,24 @@
 
         }
 
-      } catch (error) {
 
-        console.error(error);
+      }
+
+      // =========================
+      // SHOW EXACT ERROR
+      // =========================
+
+      catch (error) {
+
+        console.error(
+          "NOVA Firebase Error:",
+          error
+        );
 
         message.textContent =
-          error.message
-            .replace("Firebase: ", "")
-            .replace(/\(auth\/.*\)/, "");
+          error.code +
+          " — " +
+          error.message;
 
       }
 
