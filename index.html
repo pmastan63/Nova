@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NOVA 🌌</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #080b1a, #151b3d);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 420px;
+      background: rgba(255,255,255,0.08);
+      padding: 30px;
+      border-radius: 20px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    }
+
+    .logo {
+      text-align: center;
+      font-size: 42px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #bbb;
+      margin-bottom: 25px;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.12);
+      color: white;
+      font-size: 16px;
+      outline: none;
+    }
+
+    input::placeholder {
+      color: #aaa;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 12px;
+      border: none;
+      border-radius: 10px;
+      background: #6c63ff;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #584fff;
+    }
+
+    .switch {
+      text-align: center;
+      margin-top: 18px;
+      color: #aaa;
+      cursor: pointer;
+    }
+
+    .switch span {
+      color: #8f89ff;
+      font-weight: bold;
+    }
+
+    #message {
+      text-align: center;
+      margin-top: 15px;
+      min-height: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <div class="logo">NOVA 🌌</div>
+    <div class="subtitle">Your world. Connected.</div>
+
+    <div id="signupFields" style="display:none;">
+      <input type="text" id="name" placeholder="Your name">
+    </div>
+
+    <input type="email" id="email" placeholder="Email address">
+    <input type="password" id="password" placeholder="Password">
+
+    <button id="mainButton">Login</button>
+
+    <div class="switch" id="switchMode">
+      Don't have an account?
+      <span>Sign up</span>
+    </div>
+
+    <div id="message"></div>
+
+  </div>
+
+
+  <!-- Firebase -->
+  <script type="module">
+
+    import { initializeApp }
+      from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+
+    import {
+      getAuth,
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword
+    } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+
+    import {
+      getFirestore,
+      doc,
+      setDoc
+    } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+
+
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCoFEKP43y_K1R5IAJApQCltckle51uOtI",
+      authDomain: "petrax-nova-9b950.firebaseapp.com",
+      projectId: "petrax-nova-9b950",
+      storageBucket: "petrax-nova-9b950.firebasestorage.app",
+      messagingSenderId: "578838882402",
+      appId: "1:578838882402:web:a65d56cc913b438712493b",
+      measurementId: "G-FZGWSCTW7E"
+    };
+
+
+    // Start Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+
+    let signupMode = false;
+
+    const mainButton = document.getElementById("mainButton");
+    const switchMode = document.getElementById("switchMode");
+    const signupFields = document.getElementById("signupFields");
+    const message = document.getElementById("message");
+
+
+    // Switch Login / Signup
+    switchMode.addEventListener("click", () => {
+
+      signupMode = !signupMode;
+
+      if (signupMode) {
+
+        signupFields.style.display = "block";
+
+        mainButton.textContent = "Create Account";
+
+        switchMode.innerHTML =
+          'Already have an account? <span>Login</span>';
+
+      } else {
+
+        signupFields.style.display = "none";
+
+        mainButton.textContent = "Login";
+
+        switchMode.innerHTML =
+          'Don\'t have an account? <span>Sign up</span>';
+      }
+
+      message.textContent = "";
+    });
+
+
+    // Login / Signup
+    mainButton.addEventListener("click", async () => {
+
+      const email =
+        document.getElementById("email").value.trim();
+
+      const password =
+        document.getElementById("password").value;
+
+      const name =
+        document.getElementById("name").value.trim();
+
+
+      if (!email || !password) {
+
+        message.textContent =
+          "Please enter your email and password.";
+
+        return;
+      }
+
+
+      try {
+
+        if (signupMode) {
+
+          if (!name) {
+
+            message.textContent =
+              "Please enter your name.";
+
+            return;
+          }
+
+
+          const userCredential =
+            await createUserWithEmailAndPassword(
+              auth,
+              email,
+              password
+            );
+
+
+          const user = userCredential.user;
+
+
+          // Create user profile
+          await setDoc(
+            doc(db, "users", user.uid),
+            {
+              name: name,
+              email: email,
+              createdAt: new Date().toISOString()
+            }
+          );
+
+
+          message.textContent =
+            "Account created successfully! 🎉";
+
+        } else {
+
+          await signInWithEmailAndPassword(
+            auth,
+            email,
+            password
+          );
+
+
+          message.textContent =
+            "Login successful! 🚀";
+
+        }
+
+      } catch (error) {
+
+        console.error(error);
+
+        message.textContent =
+          error.message
+            .replace("Firebase: ", "")
+            .replace(/\(auth\/.*\)/, "");
+
+      }
+
+    });
+
+  </script>
+
+</body>
+</html>
