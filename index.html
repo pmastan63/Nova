@@ -3,380 +3,334 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>NOVA 🌌</title>
 
   <style>
     * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
       font-family: Arial, sans-serif;
     }
 
     body {
-      margin: 0;
+      background: #f7f7f7;
+      color: #111;
       min-height: 100vh;
-      background: linear-gradient(135deg, #080b1a, #151b3d);
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
 
-    .container {
-      width: 90%;
-      max-width: 420px;
-      background: rgba(255,255,255,0.08);
-      padding: 30px;
-      border-radius: 20px;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    /* LOGIN */
+
+    #loginPage {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .login-box {
+      background: white;
+      width: 100%;
+      max-width: 400px;
+      padding: 35px;
+      border-radius: 18px;
+      border: 1px solid #e5e5e5;
     }
 
     .logo {
       text-align: center;
-      font-size: 42px;
-      font-weight: bold;
-      margin-bottom: 5px;
+      font-size: 34px;
+      font-weight: 700;
+      margin-bottom: 8px;
     }
 
-    .subtitle {
+    .tagline {
       text-align: center;
-      color: #bbb;
-      margin-bottom: 25px;
+      color: #777;
+      margin-bottom: 30px;
     }
 
     input {
       width: 100%;
       padding: 14px;
-      margin: 8px 0;
-      border: none;
+      margin-bottom: 12px;
+      border: 1px solid #ddd;
       border-radius: 10px;
-      background: rgba(255,255,255,0.12);
-      color: white;
-      font-size: 16px;
+      font-size: 15px;
       outline: none;
     }
 
-    input::placeholder {
-      color: #aaa;
+    input:focus {
+      border-color: #111;
     }
 
     button {
       width: 100%;
       padding: 14px;
-      margin-top: 12px;
       border: none;
       border-radius: 10px;
-      background: #6c63ff;
+      background: #111;
       color: white;
-      font-size: 16px;
-      font-weight: bold;
+      font-size: 15px;
+      font-weight: 600;
       cursor: pointer;
     }
 
     button:hover {
-      background: #584fff;
+      opacity: 0.9;
     }
 
     .switch {
       text-align: center;
       margin-top: 18px;
-      color: #aaa;
+      color: #777;
       cursor: pointer;
+      font-size: 14px;
     }
 
     .switch span {
-      color: #8f89ff;
-      font-weight: bold;
+      color: #111;
+      font-weight: 600;
     }
 
     #message {
       text-align: center;
       margin-top: 15px;
-      min-height: 20px;
+      font-size: 14px;
       word-break: break-word;
     }
+
+
+    /* HOME */
+
+    #homePage {
+      display: none;
+      min-height: 100vh;
+      padding-bottom: 80px;
+    }
+
+    header {
+      background: white;
+      border-bottom: 1px solid #e8e8e8;
+      padding: 18px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .header-content {
+      max-width: 900px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nova-logo {
+      font-size: 23px;
+      font-weight: 700;
+    }
+
+    .logout {
+      width: auto;
+      padding: 9px 15px;
+      background: #f1f1f1;
+      color: #111;
+      font-size: 13px;
+    }
+
+    main {
+      max-width: 900px;
+      margin: auto;
+      padding: 35px 20px;
+    }
+
+    .welcome {
+      margin-bottom: 30px;
+    }
+
+    .welcome h1 {
+      font-size: 30px;
+      margin-bottom: 7px;
+    }
+
+    .welcome p {
+      color: #777;
+    }
+
+    .apps {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .app-card {
+      background: white;
+      border: 1px solid #e5e5e5;
+      border-radius: 15px;
+      padding: 25px 20px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .app-card:hover {
+      transform: translateY(-2px);
+      border-color: #ccc;
+    }
+
+    .app-icon {
+      font-size: 27px;
+      margin-bottom: 15px;
+    }
+
+    .app-card h3 {
+      font-size: 17px;
+      margin-bottom: 5px;
+    }
+
+    .app-card p {
+      color: #888;
+      font-size: 13px;
+    }
+
+
+    /* BOTTOM NAV */
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 65px;
+      background: white;
+      border-top: 1px solid #e5e5e5;
+      display: flex;
+      justify-content: center;
+      z-index: 20;
+    }
+
+    .nav-inner {
+      width: 100%;
+      max-width: 700px;
+      display: flex;
+      justify-content: space-around;
+    }
+
+    .nav-item {
+      background: none;
+      color: #777;
+      width: auto;
+      padding: 8px 14px;
+      font-size: 12px;
+      font-weight: normal;
+    }
+
+    .nav-item span {
+      display: block;
+      font-size: 20px;
+      margin-bottom: 2px;
+    }
+
+    .nav-item.active {
+      color: #111;
+      font-weight: 600;
+    }
+
+
+    /* MOBILE */
+
+    @media (max-width: 600px) {
+
+      .login-box {
+        padding: 25px;
+      }
+
+      .apps {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .welcome h1 {
+        font-size: 25px;
+      }
+
+      .nav-item {
+        padding: 8px 7px;
+      }
+    }
+
   </style>
 </head>
 
+
 <body>
 
-  <div class="container">
 
-    <div class="logo">NOVA 🌌</div>
+  <!-- ========================= -->
+  <!-- LOGIN PAGE -->
+  <!-- ========================= -->
 
-    <div class="subtitle">
-      Your world. Connected.
-    </div>
+  <div id="loginPage">
 
-    <div id="signupFields" style="display: none;">
+    <div class="login-box">
+
+      <div class="logo">
+        NOVA 🌌
+      </div>
+
+      <div class="tagline">
+        Your world. Connected.
+      </div>
+
+
+      <div id="signupFields" style="display:none;">
+
+        <input
+          type="text"
+          id="name"
+          placeholder="Your name"
+        >
+
+      </div>
+
+
       <input
-        type="text"
-        id="name"
-        placeholder="Your name"
+        type="email"
+        id="email"
+        placeholder="Email address"
       >
+
+
+      <input
+        type="password"
+        id="password"
+        placeholder="Password"
+      >
+
+
+      <button id="mainButton">
+        Login
+      </button>
+
+
+      <div
+        class="switch"
+        id="switchMode"
+      >
+        Don't have an account?
+        <span>Sign up</span>
+      </div>
+
+
+      <div id="message"></div>
+
     </div>
-
-    <input
-      type="email"
-      id="email"
-      placeholder="Email address"
-    >
-
-    <input
-      type="password"
-      id="password"
-      placeholder="Password"
-    >
-
-    <button id="mainButton">
-      Login
-    </button>
-
-    <div class="switch" id="switchMode">
-      Don't have an account?
-      <span>Sign up</span>
-    </div>
-
-    <div id="message"></div>
 
   </div>
 
 
-  <script type="module">
 
-    import { initializeApp }
-      from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
-
-    import {
-      getAuth,
-      createUserWithEmailAndPassword,
-      signInWithEmailAndPassword
-    } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
-
-    import {
-      getFirestore,
-      doc,
-      setDoc
-    } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
-
-
-    // =========================
-    // FIREBASE CONFIGURATION
-    // =========================
-
-    const firebaseConfig = {
-
-      apiKey: "AIzaSyCoFEKP43y_K1R5IAJApQCltckle51uOtI",
-
-      authDomain: "petrax-nova-9b950.firebaseapp.com",
-
-      projectId: "petrax-nova-9b950",
-
-      storageBucket: "petrax-nova-9b950.firebasestorage.app",
-
-      messagingSenderId: "578838882402",
-
-      appId: "1:578838882402:web:a65d56cc913b438712493b",
-
-      measurementId: "G-FZGWSCTW7E"
-
-    };
-
-
-    // =========================
-    // START FIREBASE
-    // =========================
-
-    const app = initializeApp(firebaseConfig);
-
-    const auth = getAuth(app);
-
-    const db = getFirestore(app);
-
-
-    // =========================
-    // VARIABLES
-    // =========================
-
-    let signupMode = false;
-
-    const mainButton =
-      document.getElementById("mainButton");
-
-    const switchMode =
-      document.getElementById("switchMode");
-
-    const signupFields =
-      document.getElementById("signupFields");
-
-    const message =
-      document.getElementById("message");
-
-
-    // =========================
-    // LOGIN / SIGNUP SWITCH
-    // =========================
-
-    switchMode.addEventListener("click", () => {
-
-      signupMode = !signupMode;
-
-      if (signupMode) {
-
-        signupFields.style.display = "block";
-
-        mainButton.textContent =
-          "Create Account";
-
-        switchMode.innerHTML =
-          'Already have an account? <span>Login</span>';
-
-      } else {
-
-        signupFields.style.display = "none";
-
-        mainButton.textContent =
-          "Login";
-
-        switchMode.innerHTML =
-          'Don\'t have an account? <span>Sign up</span>';
-      }
-
-      message.textContent = "";
-
-    });
-
-
-    // =========================
-    // LOGIN / CREATE ACCOUNT
-    // =========================
-
-    mainButton.addEventListener("click", async () => {
-
-      const email =
-        document.getElementById("email").value.trim();
-
-      const password =
-        document.getElementById("password").value;
-
-      const name =
-        document.getElementById("name").value.trim();
-
-
-      message.textContent = "";
-
-
-      // Check email/password
-
-      if (!email || !password) {
-
-        message.textContent =
-          "Please enter your email and password.";
-
-        return;
-      }
-
-
-      // Password length
-
-      if (password.length < 6) {
-
-        message.textContent =
-          "Password must be at least 6 characters.";
-
-        return;
-      }
-
-
-      try {
-
-        // =========================
-        // SIGN UP
-        // =========================
-
-        if (signupMode) {
-
-          if (!name) {
-
-            message.textContent =
-              "Please enter your name.";
-
-            return;
-          }
-
-
-          const userCredential =
-            await createUserWithEmailAndPassword(
-              auth,
-              email,
-              password
-            );
-
-
-          const user =
-            userCredential.user;
-
-
-          // Save profile in Firestore
-
-          await setDoc(
-            doc(db, "users", user.uid),
-            {
-              name: name,
-              email: email,
-              createdAt: new Date().toISOString()
-            }
-          );
-
-
-          message.textContent =
-            "Account created successfully! 🎉";
-
-
-        }
-
-        // =========================
-        // LOGIN
-        // =========================
-
-        else {
-
-          await signInWithEmailAndPassword(
-            auth,
-            email,
-            password
-          );
-
-
-          message.textContent =
-            "Login successful! 🚀";
-
-        }
-
-
-      }
-
-      // =========================
-      // SHOW EXACT ERROR
-      // =========================
-
-      catch (error) {
-
-        console.error(
-          "NOVA Firebase Error:",
-          error
-        );
-
-        message.textContent =
-          error.code +
-          " — " +
-          error.message;
-
-      }
-
-    });
-
-  </script>
-
-</body>
-</html>
+  <!-- ========================= -->
+  <!-- HOME PAGE -->
+  <!-- =================
