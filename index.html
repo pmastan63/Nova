@@ -1,250 +1,566 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NOVA</title>
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>NOVA 🌌</title>
+
 
   <style>
-    body {
+
+    * {
+      box-sizing: border-box;
       margin: 0;
-      background: #f7f7f7;
+      padding: 0;
       font-family: Arial, sans-serif;
+    }
+
+
+    body {
+      background: #f7f7f7;
       color: #111;
     }
 
-    .box {
+
+    /* =========================
+       LOGIN
+    ========================= */
+
+    #loginPage {
+      min-height: 100vh;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      padding: 20px;
+    }
+
+
+    .login-box {
+      width: 100%;
+
       max-width: 400px;
-      margin: 80px auto;
+
       background: white;
+
       padding: 30px;
+
       border-radius: 16px;
+
       border: 1px solid #ddd;
     }
 
-    h1 {
+
+    .login-logo {
       text-align: center;
+
+      font-size: 34px;
+
+      font-weight: bold;
+
+      margin-bottom: 8px;
     }
 
-    p {
+
+    .login-subtitle {
       text-align: center;
+
       color: #777;
+
+      margin-bottom: 28px;
     }
+
 
     input {
       width: 100%;
+
       padding: 14px;
-      margin: 8px 0;
-      box-sizing: border-box;
+
+      margin-bottom: 12px;
+
       border: 1px solid #ddd;
-      border-radius: 8px;
+
+      border-radius: 9px;
+
       font-size: 16px;
+
+      outline: none;
     }
 
-    button {
+
+    input:focus {
+      border-color: #111;
+    }
+
+
+    .login-button {
       width: 100%;
+
       padding: 14px;
-      margin-top: 10px;
-      border: 0;
-      border-radius: 8px;
+
+      border: none;
+
+      border-radius: 9px;
+
       background: #111;
+
       color: white;
+
       font-size: 16px;
+
+      cursor: pointer;
     }
 
-    #home {
-      display: none;
+
+    .switch {
       text-align: center;
+
+      margin-top: 18px;
+
+      color: #777;
+
+      cursor: pointer;
+
+      font-size: 14px;
     }
 
-    #error {
-      color: red;
+
+    .switch span {
+      color: #111;
+
+      font-weight: bold;
+    }
+
+
+    #message {
       text-align: center;
+
       margin-top: 15px;
+
+      color: #d00;
+
+      font-size: 14px;
+
       word-break: break-word;
     }
+
+
+
+    /* =========================
+       HOME
+    ========================= */
+
+    #homePage {
+      display: none;
+
+      min-height: 100vh;
+
+      background: #f7f7f7;
+
+      padding-bottom: 30px;
+    }
+
+
+    .top-bar {
+      height: 65px;
+
+      background: white;
+
+      border-bottom: 1px solid #e5e5e5;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      padding: 0 20px;
+
+      position: sticky;
+
+      top: 0;
+
+      z-index: 10;
+    }
+
+
+    .nova-title {
+      font-size: 22px;
+
+      font-weight: bold;
+    }
+
+
+    .logout-button {
+      width: auto;
+
+      padding: 9px 15px;
+
+      border: none;
+
+      border-radius: 8px;
+
+      background: #f0f0f0;
+
+      color: #111;
+
+      cursor: pointer;
+    }
+
+
+    .dashboard {
+      max-width: 900px;
+
+      margin: auto;
+
+      padding: 35px 20px;
+    }
+
+
+    .welcome {
+      margin-bottom: 30px;
+    }
+
+
+    .welcome h1 {
+      font-size: 30px;
+
+      margin-bottom: 8px;
+    }
+
+
+    .welcome p {
+      color: #777;
+
+      font-size: 15px;
+    }
+
+
+    /* =========================
+       FEATURE CARDS
+    ========================= */
+
+    .feature-grid {
+      display: grid;
+
+      grid-template-columns: repeat(2, 1fr);
+
+      gap: 15px;
+    }
+
+
+    .feature-card {
+      background: white;
+
+      border: 1px solid #e3e3e3;
+
+      border-radius: 15px;
+
+      padding: 22px;
+
+      min-height: 145px;
+
+      text-align: left;
+
+      cursor: pointer;
+
+      transition: 0.2s;
+    }
+
+
+    .feature-card:hover {
+      transform: translateY(-2px);
+
+      border-color: #bbb;
+    }
+
+
+    .feature-icon {
+      font-size: 28px;
+
+      margin-bottom: 15px;
+    }
+
+
+    .feature-title {
+      display: block;
+
+      font-size: 17px;
+
+      font-weight: bold;
+
+      margin-bottom: 6px;
+    }
+
+
+    .feature-description {
+      display: block;
+
+      color: #888;
+
+      font-size: 13px;
+
+      line-height: 1.4;
+    }
+
+
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 600px) {
+
+      .dashboard {
+        padding: 25px 15px;
+      }
+
+
+      .welcome h1 {
+        font-size: 26px;
+      }
+
+
+      .feature-grid {
+        gap: 10px;
+      }
+
+
+      .feature-card {
+        min-height: 135px;
+
+        padding: 17px;
+      }
+
+    }
+
   </style>
+
 </head>
+
+
 
 <body>
 
-  <div class="box" id="login">
 
-    <h1>NOVA 🌌</h1>
+  <!-- =========================
+       LOGIN PAGE
+  ========================= -->
 
-    <p>Your world. Connected.</p>
+  <div id="loginPage">
 
-    <input
-      id="email"
-      type="email"
-      placeholder="Email"
-    >
+    <div class="login-box">
 
-    <input
-      id="password"
-      type="password"
-      placeholder="Password"
-    >
+      <div class="login-logo">
+        NOVA 🌌
+      </div>
 
-    <button id="loginButton">
-      Login
-    </button>
 
-    <div id="error"></div>
+      <div class="login-subtitle">
+        Your world. Connected.
+      </div>
+
+
+      <div
+        id="signupFields"
+        style="display:none;"
+      >
+
+        <input
+          type="text"
+          id="name"
+          placeholder="Your name"
+        >
+
+      </div>
+
+
+      <input
+        type="email"
+        id="email"
+        placeholder="Email address"
+      >
+
+
+      <input
+        type="password"
+        id="password"
+        placeholder="Password"
+      >
+
+
+      <button
+        class="login-button"
+        id="mainButton"
+      >
+        Login
+      </button>
+
+
+      <div
+        class="switch"
+        id="switchMode"
+      >
+        Don't have an account?
+        <span>Sign up</span>
+      </div>
+
+
+      <div id="message"></div>
+
+    </div>
 
   </div>
 
 
-  <div class="box" id="home">
 
-    <h1>Welcome to NOVA 🌌</h1>
+  <!-- =========================
+       HOME PAGE
+  ========================= -->
 
-    <p id="welcome"></p>
-
-    <button id="logoutButton">
-      Logout
-    </button>
-
-  </div>
+  <div id="homePage">
 
 
-  <script type="module">
+    <header class="top-bar">
 
-    import { initializeApp }
-      from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
-
-    import {
-      getAuth,
-      signInWithEmailAndPassword,
-      onAuthStateChanged,
-      signOut
-    }
-    from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+      <div class="nova-title">
+        NOVA 🌌
+      </div>
 
 
-    const firebaseConfig = {
+      <button
+        class="logout-button"
+        id="logoutButton"
+      >
+        Logout
+      </button>
 
-      apiKey: "AIzaSyCoFEKP43y_K1R5IAJApQCltckle51uOtI",
-
-      authDomain: "petrax-nova-9b950.firebaseapp.com",
-
-      projectId: "petrax-nova-9b950",
-
-      storageBucket: "petrax-nova-9b950.firebasestorage.app",
-
-      messagingSenderId: "578838882402",
-
-      appId: "1:578838882402:web:a65d56cc913b438712493b"
-
-    };
+    </header>
 
 
-    const app = initializeApp(firebaseConfig);
 
-    const auth = getAuth(app);
-
-
-    const loginButton =
-      document.getElementById("loginButton");
-
-    const logoutButton =
-      document.getElementById("logoutButton");
-
-    const loginPage =
-      document.getElementById("login");
-
-    const homePage =
-      document.getElementById("home");
-
-    const error =
-      document.getElementById("error");
-
-    const welcome =
-      document.getElementById("welcome");
+    <main class="dashboard">
 
 
-    loginButton.addEventListener(
-      "click",
-      async () => {
+      <section class="welcome">
 
-        const email =
-          document.getElementById("email").value.trim();
-
-        const password =
-          document.getElementById("password").value;
+        <h1>
+          Welcome, <span id="userName">there</span> 👋
+        </h1>
 
 
-        error.textContent = "";
+        <p>
+          Everything you need, in one place.
+        </p>
+
+      </section>
 
 
-        if (!email || !password) {
 
-          error.textContent =
-            "Please enter your email and password.";
-
-          return;
-        }
+      <section class="feature-grid">
 
 
-        try {
+        <!-- CHAT -->
 
-          await signInWithEmailAndPassword(
-            auth,
-            email,
-            password
-          );
+        <button
+          class="feature-card"
+          onclick="featureMessage('Chat')"
+        >
 
-        } catch (e) {
-
-          error.textContent =
-            e.code + " — " + e.message;
-
-        }
-
-      }
-    );
+          <div class="feature-icon">
+            💬
+          </div>
 
 
-    onAuthStateChanged(
-      auth,
-      (user) => {
-
-        if (user) {
-
-          loginPage.style.display =
-            "none";
-
-          homePage.style.display =
-            "block";
-
-          welcome.textContent =
-            "You are logged in as " +
-            user.email;
-
-        } else {
-
-          loginPage.style.display =
-            "block";
-
-          homePage.style.display =
-            "none";
-
-        }
-
-      }
-    );
+          <span class="feature-title">
+            Chat
+          </span>
 
 
-    logoutButton.addEventListener(
-      "click",
-      async () => {
+          <span class="feature-description">
+            Message your friends and family.
+          </span>
 
-        await signOut(auth);
+        </button>
 
-      }
-    );
 
-  </script>
 
-</body>
-</html>
+        <!-- DRIVE -->
+
+        <button
+          class="feature-card"
+          onclick="featureMessage('NOVA Drive')"
+        >
+
+          <div class="feature-icon">
+            📁
+          </div>
+
+
+          <span class="feature-title">
+            NOVA Drive
+          </span>
+
+
+          <span class="feature-description">
+            Store and share your files.
+          </span>
+
+        </button>
+
+
+
+        <!-- AI -->
+
+        <button
+          class="feature-card"
+          onclick="featureMessage('AI Assistant')"
+        >
+
+          <div class="feature-icon">
+            🤖
+          </div>
+
+
+          <span class="feature-title">
+            AI Assistant
+          </span>
+
+
+          <span class="feature-description">
+            Get help from your personal AI.
+          </span>
+
+        </button>
+
+
+
+        <!-- NEWS -->
+
+        <button
+          class="feature-card"
+          onclick="featureMessage('News')"
+        >
+
+          <div class="feature-icon">
+            📰
+          </div>
+
+
+          <span class="feature-title">
+            News
+          </span>
+
+
+          <span class="feature-description">
+           
