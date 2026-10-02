@@ -1,1216 +1,767 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<script src="https://cdn.jsdelivr.net/npm/appwrite@17.0.0"></script>
-  <head>
-
+<head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+  <title>NOVA 🌌</title>
 
-  <title>NOVA</title>
-
+  <!-- Appwrite Web SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/appwrite@17.0.0"></script>
 
   <style>
-
     * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
     }
-
 
     body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
-      color: #111;
+      background: #f6f7fb;
+      color: #171717;
+      min-height: 100vh;
     }
 
+    /* ---------- LOGIN ---------- */
 
-    button,
-    input {
-      font-family: inherit;
-    }
-
-
-    button {
-      cursor: pointer;
-    }
-
-
-    /* =========================
-       AUTH
-       ========================= */
-
-    #authScreen {
+    .auth-page {
       min-height: 100vh;
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       padding: 20px;
     }
 
-
-    .auth-card {
+    .auth-box {
       width: 100%;
-      max-width: 400px;
+      max-width: 420px;
       background: white;
-      border: 1px solid #e5e5e5;
-      border-radius: 22px;
       padding: 30px;
+      border-radius: 22px;
+      box-shadow: 0 10px 35px rgba(0,0,0,0.08);
     }
-
 
     .logo {
       text-align: center;
-      font-size: 34px;
+      font-size: 38px;
       font-weight: bold;
-      margin-bottom: 8px;
-    }
-
-
-    .subtitle {
-      text-align: center;
-      color: #777;
-      margin-bottom: 28px;
-    }
-
-
-    .input {
-      width: 100%;
-      padding: 14px;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      margin-bottom: 12px;
-      font-size: 16px;
-      outline: none;
-    }
-
-
-    .input:focus {
-      border-color: #111;
-    }
-
-
-    .primary-button {
-      width: 100%;
-      padding: 14px;
-      border: none;
-      border-radius: 10px;
-      background: #111;
-      color: white;
-      font-size: 16px;
-      margin-top: 5px;
-    }
-
-
-    .secondary-button {
-      width: 100%;
-      padding: 13px;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      background: white;
-      color: #111;
-      font-size: 16px;
-      margin-top: 10px;
-    }
-
-
-    .error {
-      color: #d00;
-      font-size: 14px;
-      margin-top: 12px;
-      text-align: center;
-    }
-
-
-    .success {
-      color: #16803c;
-      font-size: 14px;
-      margin-top: 12px;
-      text-align: center;
-    }
-
-
-    /* =========================
-       APP
-       ========================= */
-
-    #app {
-      display: none;
-      min-height: 100vh;
-    }
-
-
-    .app-layout {
-      min-height: 100vh;
-      display: flex;
-    }
-
-
-    /* SIDEBAR */
-
-    .sidebar {
-      width: 240px;
-      background: white;
-      border-right: 1px solid #e5e5e5;
-      padding: 22px 14px;
-      flex-shrink: 0;
-    }
-
-
-    .brand {
-      font-size: 25px;
-      font-weight: bold;
-      padding: 10px 12px 25px;
-    }
-
-
-    .nav-button {
-      width: 100%;
-      border: none;
-      background: transparent;
-      text-align: left;
-      padding: 13px 14px;
-      border-radius: 10px;
-      font-size: 15px;
       margin-bottom: 5px;
     }
 
-
-    .nav-button:hover {
-      background: #f2f2f2;
+    .tagline {
+      text-align: center;
+      color: #777;
+      margin-bottom: 30px;
     }
 
-
-    .nav-button.active {
-      background: #111;
-      color: white;
-    }
-
-
-    .logout {
-      margin-top: 25px;
-    }
-
-
-    /* MAIN */
-
-    .main {
-      flex: 1;
-      min-width: 0;
-      padding: 30px;
-    }
-
-
-    .topbar {
+    .tabs {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      background: #f0f1f5;
+      padding: 5px;
+      border-radius: 12px;
       margin-bottom: 25px;
     }
 
-
-    .page-title {
-      font-size: 28px;
-      font-weight: bold;
-    }
-
-
-    .user-email {
-      color: #777;
-      font-size: 13px;
-    }
-
-
-    /* HOME */
-
-    .welcome-card {
-      background: white;
-      border: 1px solid #e5e5e5;
-      border-radius: 18px;
-      padding: 25px;
-      margin-bottom: 20px;
-    }
-
-
-    .welcome-card h2 {
-      margin-top: 0;
-    }
-
-
-    .feature-grid {
-      display: grid;
-      grid-template-columns:
-        repeat(auto-fit, minmax(180px, 1fr));
-      gap: 15px;
-    }
-
-
-    .feature-card {
-      background: white;
-      border: 1px solid #e5e5e5;
-      border-radius: 18px;
-      padding: 22px;
-      min-height: 130px;
-    }
-
-
-    .feature-icon {
-      font-size: 28px;
-      margin-bottom: 15px;
-    }
-
-
-    .feature-card h3 {
-      margin: 0 0 7px;
-    }
-
-
-    .feature-card p {
-      margin: 0;
-      color: #777;
-      font-size: 14px;
-    }
-
-
-    /* =========================
-       CHAT
-       ========================= */
-
-    #chatPage {
-      display: none;
-    }
-
-
-    .chat-layout {
-      display: grid;
-      grid-template-columns: 260px 1fr;
-      height: calc(100vh - 90px);
-      background: white;
-      border: 1px solid #e5e5e5;
-      border-radius: 18px;
-      overflow: hidden;
-    }
-
-
-    .chat-users {
-      border-right: 1px solid #e5e5e5;
-      overflow-y: auto;
-    }
-
-
-    .chat-users-title {
-      padding: 18px;
-      font-weight: bold;
-      border-bottom: 1px solid #eee;
-    }
-
-
-    .user-item {
-      padding: 15px 18px;
-      border-bottom: 1px solid #f0f0f0;
+    .tab {
+      flex: 1;
+      border: none;
+      padding: 12px;
+      border-radius: 9px;
+      background: transparent;
+      font-size: 15px;
       cursor: pointer;
     }
 
-
-    .user-item:hover {
-      background: #f7f7f7;
-    }
-
-
-    .user-item.active {
-      background: #f0f0f0;
-    }
-
-
-    .user-name {
+    .tab.active {
+      background: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
       font-weight: bold;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
       font-size: 14px;
+      margin-bottom: 7px;
+      color: #555;
     }
 
-
-    .user-id {
-      color: #888;
-      font-size: 11px;
-      margin-top: 4px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-
-    .chat-area {
-      display: flex;
-      flex-direction: column;
-      min-width: 0;
-    }
-
-
-    .chat-header {
-      padding: 17px 20px;
-      border-bottom: 1px solid #eee;
-      font-weight: bold;
-    }
-
-
-    #messages {
-      flex: 1;
-      overflow-y: auto;
-      padding: 20px;
-      background: #fafafa;
-    }
-
-
-    .message-row {
-      display: flex;
-      margin-bottom: 12px;
-    }
-
-
-    .message-row.mine {
-      justify-content: flex-end;
-    }
-
-
-    .message {
-      max-width: 75%;
-      padding: 10px 13px;
-      border-radius: 14px;
-      background: #e9e9e9;
-      word-wrap: break-word;
-    }
-
-
-    .mine .message {
-      background: #111;
-      color: white;
-    }
-
-
-    .message-time {
-      font-size: 10px;
-      opacity: 0.6;
-      margin-top: 4px;
-    }
-
-
-    .chat-input-area {
-      display: flex;
-      gap: 8px;
-      padding: 12px;
-      border-top: 1px solid #eee;
-    }
-
-
-    #messageInput {
-      flex: 1;
-      padding: 13px;
+    input {
+      width: 100%;
+      padding: 14px;
       border: 1px solid #ddd;
-      border-radius: 10px;
+      border-radius: 12px;
       font-size: 15px;
       outline: none;
     }
 
-
-    #sendButton {
-      width: 80px;
-      border: none;
-      border-radius: 10px;
-      background: #111;
-      color: white;
+    input:focus {
+      border-color: #111;
     }
 
+    .main-button {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      background: #111;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 5px;
+    }
 
-    .empty-chat {
-      height: 100%;
+    .main-button:disabled {
+      opacity: 0.6;
+    }
+
+    .message {
+      margin-top: 15px;
+      text-align: center;
+      font-size: 14px;
+      min-height: 20px;
+    }
+
+    .error {
+      color: #d93025;
+    }
+
+    .success {
+      color: #16833b;
+    }
+
+    /* ---------- APP ---------- */
+
+    .app {
+      display: none;
+      min-height: 100vh;
+    }
+
+    .topbar {
+      height: 65px;
+      background: white;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 18px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .brand {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .user-area {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .avatar {
+      width: 38px;
+      height: 38px;
+      background: #111;
+      color: white;
+      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #888;
-      text-align: center;
-      padding: 20px;
+      font-weight: bold;
     }
 
+    .logout {
+      border: none;
+      background: #f1f1f1;
+      padding: 9px 13px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
 
-    /* MOBILE */
+    .content {
+      max-width: 1000px;
+      margin: auto;
+      padding: 25px 18px 100px;
+    }
 
-    @media (max-width: 700px) {
+    .welcome {
+      margin-bottom: 25px;
+    }
 
-      .sidebar {
-        width: 70px;
-        padding: 15px 8px;
+    .welcome h1 {
+      font-size: 28px;
+      margin-bottom: 5px;
+    }
+
+    .welcome p {
+      color: #777;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 18px;
+      border: 1px solid #eee;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+    }
+
+    .card-icon {
+      font-size: 30px;
+      margin-bottom: 12px;
+    }
+
+    .card h3 {
+      margin-bottom: 5px;
+    }
+
+    .card p {
+      color: #777;
+      font-size: 14px;
+    }
+
+    .coming {
+      margin-top: 25px;
+      background: white;
+      padding: 20px;
+      border-radius: 18px;
+      border: 1px solid #eee;
+    }
+
+    .coming h3 {
+      margin-bottom: 8px;
+    }
+
+    .coming p {
+      color: #777;
+      line-height: 1.5;
+    }
+
+    /* ---------- MOBILE ---------- */
+
+    @media (max-width: 600px) {
+
+      .auth-box {
+        padding: 24px;
       }
 
-
-      .brand {
-        font-size: 0;
-        text-align: center;
-        padding: 10px 0 20px;
+      .cards {
+        grid-template-columns: 1fr;
       }
 
-
-      .brand::after {
-        content: "🌌";
+      .welcome h1 {
         font-size: 25px;
       }
 
-
-      .nav-button {
-        text-align: center;
-        padding: 12px 4px;
-        font-size: 0;
+      .brand {
+        font-size: 21px;
       }
 
-
-      .nav-button span {
-        font-size: 20px;
-      }
-
-
-      .logout span {
-        font-size: 20px;
-      }
-
-
-      .main {
-        padding: 15px;
-      }
-
-
-      .topbar {
-        display: block;
-      }
-
-
-      .user-email {
-        margin-top: 6px;
-      }
-
-
-      .chat-layout {
-        grid-template-columns: 1fr;
-        height: calc(100vh - 120px);
-      }
-
-
-      .chat-users {
+      .user-name {
         display: none;
       }
-
-
-      .message {
-        max-width: 85%;
-      }
-
     }
-
   </style>
-
 </head>
-
 
 <body>
 
+  <!-- ========================= -->
+  <!-- LOGIN / REGISTER PAGE -->
+  <!-- ========================= -->
 
-  <!-- ================================================= -->
-  <!-- LOGIN / SIGN UP -->
-  <!-- ================================================= -->
+  <div class="auth-page" id="authPage">
 
-  <section id="authScreen">
+    <div class="auth-box">
 
-    <div class="auth-card">
+      <div class="logo">NOVA 🌌</div>
 
-      <div class="logo">
-        NOVA 🌌
+      <div class="tagline">
+        Everything you need, in one place.
       </div>
 
-      <div class="subtitle">
-        Your world. Connected.
+      <div class="tabs">
+
+        <button
+          class="tab active"
+          id="loginTab"
+          onclick="showLogin()">
+          Login
+        </button>
+
+        <button
+          class="tab"
+          id="registerTab"
+          onclick="showRegister()">
+          Create account
+        </button>
+
       </div>
 
 
-      <input
-        id="email"
-        class="input"
-        type="email"
-        placeholder="Email"
-      >
+      <!-- LOGIN FORM -->
+
+      <form id="loginForm">
+
+        <div class="form-group">
+
+          <label>Email</label>
+
+          <input
+            type="email"
+            id="loginEmail"
+            placeholder="you@example.com"
+            required>
+
+        </div>
 
 
-      <input
-        id="password"
-        class="input"
-        type="password"
-        placeholder="Password"
-      >
+        <div class="form-group">
 
+          <label>Password</label>
 
-      <button
-        id="loginButton"
-        class="primary-button"
-      >
-        Login
-      </button>
+          <input
+            type="password"
+            id="loginPassword"
+            placeholder="Your password"
+            required>
 
-
-      <button
-        id="signupButton"
-        class="secondary-button"
-      >
-        Create account
-      </button>
-
-
-      <div id="authMessage"></div>
-
-    </div>
-
-  </section>
-
-
-
-  <!-- ================================================= -->
-  <!-- MAIN APP -->
-  <!-- ================================================= -->
-
-  <section id="app">
-
-    <div class="app-layout">
-
-
-      <!-- SIDEBAR -->
-
-      <aside class="sidebar">
-
-        <div class="brand">
-          NOVA 🌌
         </div>
 
 
         <button
-          class="nav-button active"
-          id="homeButton"
-        >
-          <span>🏠</span>
-          <span class="nav-text"> Home</span>
+          type="submit"
+          class="main-button"
+          id="loginButton">
+
+          Login
+
         </button>
+
+      </form>
+
+
+      <!-- REGISTER FORM -->
+
+      <form
+        id="registerForm"
+        style="display:none;">
+
+        <div class="form-group">
+
+          <label>Name</label>
+
+          <input
+            type="text"
+            id="registerName"
+            placeholder="Your name"
+            required>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>Email</label>
+
+          <input
+            type="email"
+            id="registerEmail"
+            placeholder="you@example.com"
+            required>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>Password</label>
+
+          <input
+            type="password"
+            id="registerPassword"
+            placeholder="At least 8 characters"
+            minlength="8"
+            required>
+
+        </div>
 
 
         <button
-          class="nav-button"
-          id="chatButton"
-        >
-          <span>💬</span>
-          <span class="nav-text"> Chat</span>
+          type="submit"
+          class="main-button"
+          id="registerButton">
+
+          Create account
+
         </button>
 
+      </form>
 
-        <button
-          class="nav-button"
-          id="driveButton"
-        >
-          <span>📁</span>
-          <span class="nav-text"> Drive</span>
-        </button>
 
-
-        <button
-          class="nav-button"
-          id="aiButton"
-        >
-          <span>🤖</span>
-          <span class="nav-text"> AI</span>
-        </button>
-
-
-        <button
-          class="nav-button"
-          id="newsButton"
-        >
-          <span>📰</span>
-          <span class="nav-text"> News</span>
-        </button>
-
-
-        <button
-          class="nav-button"
-          id="gamesButton"
-        >
-          <span>🎮</span>
-          <span class="nav-text"> Games</span>
-        </button>
-
-
-        <button
-          class="nav-button"
-          id="profileButton"
-        >
-          <span>👤</span>
-          <span class="nav-text"> Profile</span>
-        </button>
-
-
-        <button
-          class="nav-button logout"
-          id="logoutButton"
-        >
-          <span>🚪</span>
-          <span class="nav-text"> Logout</span>
-        </button>
-
-      </aside>
-
-
-
-      <!-- MAIN -->
-
-      <main class="main">
-
-
-        <!-- HOME -->
-
-        <section id="homePage">
-
-          <div class="topbar">
-
-            <div class="page-title">
-              Home
-            </div>
-
-            <div
-              class="user-email"
-              id="userEmail"
-            ></div>
-
-          </div>
-
-
-          <div class="welcome-card">
-
-            <h2>
-              Welcome to NOVA 🌌
-            </h2>
-
-            <p>
-              One simple place for your messages,
-              files, AI, news and entertainment.
-            </p>
-
-          </div>
-
-
-          <div class="feature-grid">
-
-
-            <div
-              class="feature-card"
-              onclick="openChat()"
-            >
-
-              <div class="feature-icon">
-                💬
-              </div>
-
-              <h3>
-                Chat
-              </h3>
-
-              <p>
-                Talk with friends and family.
-              </p>
-
-            </div>
-
-
-            <div class="feature-card">
-
-              <div class="feature-icon">
-                📁
-              </div>
-
-              <h3>
-                NOVA Drive
-              </h3>
-
-              <p>
-                Store and share your files.
-              </p>
-
-            </div>
-
-
-            <div class="feature-card">
-
-              <div class="feature-icon">
-                🤖
-              </div>
-
-              <h3>
-                AI Assistant
-              </h3>
-
-              <p>
-                Your personal AI assistant.
-              </p>
-
-            </div>
-
-
-            <div class="feature-card">
-
-              <div class="feature-icon">
-                📰
-              </div>
-
-              <h3>
-                News
-              </h3>
-
-              <p>
-                Stay updated.
-              </p>
-
-            </div>
-
-
-            <div class="feature-card">
-
-              <div class="feature-icon">
-                🎮
-              </div>
-
-              <h3>
-                Games
-              </h3>
-
-              <p>
-                Play simple games.
-              </p>
-
-            </div>
-
-
-            <div class="feature-card">
-
-              <div class="feature-icon">
-                👤
-              </div>
-
-              <h3>
-                Profile
-              </h3>
-
-              <p>
-                Manage your NOVA account.
-              </p>
-
-            </div>
-
-
-          </div>
-
-        </section>
-
-
-
-        <!-- CHAT -->
-
-        <section id="chatPage">
-
-          <div class="topbar">
-
-            <div class="page-title">
-              Chat
-            </div>
-
-          </div>
-
-
-          <div class="chat-layout">
-
-
-            <!-- USERS -->
-
-            <div class="chat-users">
-
-              <div class="chat-users-title">
-                People
-              </div>
-
-              <div id="usersList"></div>
-
-            </div>
-
-
-
-            <!-- CHAT AREA -->
-
-            <div class="chat-area">
-
-
-              <div
-                class="chat-header"
-                id="chatHeader"
-              >
-                Select someone to chat
-              </div>
-
-
-              <div id="messages">
-
-                <div class="empty-chat">
-                  Select a person to start chatting.
-                </div>
-
-              </div>
-
-
-              <div class="chat-input-area">
-
-                <input
-                  id="messageInput"
-                  type="text"
-                  placeholder="Write a message..."
-                  disabled
-                >
-
-
-                <button
-                  id="sendButton"
-                  disabled
-                >
-                  Send
-                </button>
-
-              </div>
-
-
-            </div>
-
-          </div>
-
-        </section>
-
-
-
-        <!-- PLACEHOLDER PAGES -->
-
-        <section
-          id="placeholderPage"
-          style="display:none;"
-        >
-
-          <div class="topbar">
-
-            <div
-              class="page-title"
-              id="placeholderTitle"
-            >
-              NOVA
-            </div>
-
-          </div>
-
-
-          <div class="welcome-card">
-
-            <h2 id="placeholderHeading">
-              Coming soon
-            </h2>
-
-            <p id="placeholderText">
-              This section will be added next.
-            </p>
-
-          </div>
-
-        </section>
-
-
-      </main>
+      <div
+        class="message"
+        id="message">
+      </div>
 
     </div>
 
-  </section>
+  </div>
 
 
 
-  <!-- ================================================= -->
-  <!-- FIREBASE -->
-  <!-- ================================================= -->
+  <!-- ========================= -->
+  <!-- NOVA APP -->
+  <!-- ========================= -->
 
-  <script type="module">
+  <div class="app" id="appPage">
+
+    <div class="topbar">
+
+      <div class="brand">
+        NOVA 🌌
+      </div>
+
+      <div class="user-area">
+
+        <span
+          class="user-name"
+          id="topUserName">
+        </span>
+
+        <div
+          class="avatar"
+          id="avatar">
+          N
+        </div>
+
+        <button
+          class="logout"
+          onclick="logout()">
+
+          Logout
+
+        </button>
+
+      </div>
+
+    </div>
 
 
-    // FIREBASE APP
+    <main class="content">
 
-    import {
-      initializeApp
+      <div class="welcome">
+
+        <h1>
+          Welcome to NOVA 👋
+        </h1>
+
+        <p id="welcomeText">
+          Your all-in-one space.
+        </p>
+
+      </div>
+
+
+      <div class="cards">
+
+
+        <div
+          class="card"
+          onclick="comingSoon('Chat')">
+
+          <div class="card-icon">
+            💬
+          </div>
+
+          <h3>
+            Chat
+          </h3>
+
+          <p>
+            Talk with friends and family.
+          </p>
+
+        </div>
+
+
+        <div
+          class="card"
+          onclick="comingSoon('NOVA Drive')">
+
+          <div class="card-icon">
+            📁
+          </div>
+
+          <h3>
+            NOVA Drive
+          </h3>
+
+          <p>
+            Store and share your files.
+          </p>
+
+        </div>
+
+
+        <div
+          class="card"
+          onclick="comingSoon('AI Assistant')">
+
+          <div class="card-icon">
+            🤖
+          </div>
+
+          <h3>
+            AI Assistant
+          </h3>
+
+          <p>
+            Ask questions and get help.
+          </p>
+
+        </div>
+
+
+        <div
+          class="card"
+          onclick="comingSoon('News')">
+
+          <div class="card-icon">
+            📰
+          </div>
+
+          <h3>
+            News
+          </h3>
+
+          <p>
+            Stay updated with the latest news.
+          </p>
+
+        </div>
+
+
+        <div
+          class="card"
+          onclick="comingSoon('Games')">
+
+          <div class="card-icon">
+            🎮
+          </div>
+
+          <h3>
+            Games
+          </h3>
+
+          <p>
+            Play games inside NOVA.
+          </p>
+
+        </div>
+
+
+        <div
+          class="card"
+          onclick="comingSoon('Profile')">
+
+          <div class="card-icon">
+            👤
+          </div>
+
+          <h3>
+            Profile
+          </h3>
+
+          <p>
+            Manage your NOVA account.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="coming">
+
+        <h3>
+          🚀 NOVA is being built
+        </h3>
+
+        <p>
+          Your account system is connected to Appwrite.
+          Chat, Drive, AI, News and Games will be added next.
+        </p>
+
+      </div>
+
+    </main>
+
+  </div>
+
+
+
+  <!-- ========================= -->
+  <!-- APPWRITE -->
+  <!-- ========================= -->
+
+  <script>
+
+    /* Appwrite connection */
+
+    const client = new Appwrite.Client();
+
+    client
+      .setEndpoint("https://sgp.cloud.appwrite.io/v1")
+      .setProject("6abf5a4d00337d0685c4");
+
+
+    const account = new Appwrite.Account(client);
+
+
+    /* Elements */
+
+    const authPage =
+      document.getElementById("authPage");
+
+    const appPage =
+      document.getElementById("appPage");
+
+    const loginForm =
+      document.getElementById("loginForm");
+
+    const registerForm =
+      document.getElementById("registerForm");
+
+    const message =
+      document.getElementById("message");
+
+
+    /* Show message */
+
+    function showMessage(text, type = "") {
+
+      message.textContent = text;
+
+      message.className =
+        "message " + type;
+
     }
-    from
-      "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
 
 
-    // FIREBASE AUTH
+    /* Login tab */
 
-    import {
-      getAuth,
-      createUserWithEmailAndPassword,
-      signInWithEmailAndPassword,
-      onAuthStateChanged,
-      signOut
-    }
-    from
-      "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+    function showLogin() {
 
+      loginForm.style.display = "block";
+      registerForm.style.display = "none";
 
-    // FIRESTORE
+      document
+        .getElementById("loginTab")
+        .classList.add("active");
 
-    import {
-      getFirestore,
-      collection,
-      doc,
-      setDoc,
-      addDoc,
-      query,
-      where,
-      orderBy,
-      onSnapshot,
-      serverTimestamp
-    }
-    from
-      "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+      document
+        .getElementById("registerTab")
+        .classList.remove("active");
 
-
-
-    // =================================================
-    // FIREBASE CONFIG
-    // =================================================
-
-    const firebaseConfig = {
-
-      apiKey:
-        "AIzaSyCoFEKP43y_K1R5IAJApQCltckle51uOtI",
-
-      authDomain:
-        "petrax-nova-9b950.firebaseapp.com",
-
-      projectId:
-        "petrax-nova-9b950",
-
-      storageBucket:
-        "petrax-nova-9b950.firebasestorage.app",
-
-      messagingSenderId:
-        "578838882402",
-
-      appId:
-        "1:578838882402:web:a65d56cc913b438712493b"
-
-    };
-
-
-
-    // =================================================
-    // START FIREBASE
-    // =================================================
-
-    const app =
-      initializeApp(firebaseConfig);
-
-
-    const auth =
-      getAuth(app);
-
-
-    const db =
-      getFirestore(app);
-
-
-
-    // =================================================
-    // ELEMENTS
-    // =================================================
-
-    const authScreen =
-      document.getElementById("authScreen");
-
-
-    const appScreen =
-      document.getElementById("app");
-
-
-    const emailInput =
-      document.getElementById("email");
-
-
-    const passwordInput =
-      document.getElementById("password");
-
-
-    const loginButton =
-      document.getElementById("loginButton");
-
-
-    const signupButton =
-      document.getElementById("signupButton");
-
-
-    const authMessage =
-      document.getElementById("authMessage");
-
-
-    const userEmail =
-      document.getElementById("userEmail");
-
-
-    const homePage =
-      document.getElementById("homePage");
-
-
-    const chatPage =
-      document.getElementById("chatPage");
-
-
-    const placeholderPage =
-      document.getElementById("placeholderPage");
-
-
-    const placeholderTitle =
-      document.getElementById("placeholderTitle");
-
-
-    const placeholderHeading =
-      document.getElementById("placeholderHeading");
-
-
-    const placeholderText =
-      document.getElementById("placeholderText");
-
-
-    const usersList =
-      document.getElementById("usersList");
-
-
-    const chatHeader =
-      document.getElementById("chatHeader");
-
-
-    const messages =
-      document.getElementById("messages");
-
-
-    const messageInput =
-      document.getElementById("messageInput");
-
-
-    const sendButton =
-      document.getElementById("sendButton");
-
-
-
-    // =================================================
-    // AUTH MESSAGE
-    // =================================================
-
-    function showAuthMessage(
-      message,
-      type = "error"
-    ) {
-
-      authMessage.className =
-        type === "success"
-          ? "success"
-          : "error";
-
-      authMessage.textContent =
-        message;
+      showMessage("");
 
     }
 
 
+    /* Register tab */
 
-    // =================================================
-    // CREATE ACCOUNT
-    // =================================================
+    function showRegister() {
 
-    signupButton.addEventListener(
-      "click",
-      async () => {
+      loginForm.style.display = "none";
+      registerForm.style.display = "block";
+
+      document
+        .getElementById("loginTab")
+        .classList.remove("active");
+
+      document
+        .getElementById("registerTab")
+        .classList.add("active");
+
+      showMessage("");
+
+    }
+
+
+    /* LOGIN */
+
+    loginForm.addEventListener(
+      "submit",
+      async function(event) {
+
+        event.preventDefault();
 
         const email =
-          emailInput.value.trim();
-
+          document
+            .getElementById("loginEmail")
+            .value
+            .trim();
 
         const password =
-          passwordInput.value;
+          document
+            .getElementById("loginPassword")
+            .value;
 
 
-        if (!email || !password) {
+        const button =
+          document.getElementById("loginButton");
 
-          showAuthMessage(
-            "Enter an email and password."
-          );
+        button.disabled = true;
+        button.textContent = "Logging in...";
 
-          return;
-
-        }
-
-
-        if (password.length < 6) {
-
-          showAuthMessage(
-            "Password must be at least 6 characters."
-          );
-
-          return;
-
-        }
+        showMessage("");
 
 
         try {
 
-          const result =
-            await createUserWithEmailAndPassword(
-              auth,
-              email,
-              password
-            );
+          await account.createEmailPasswordSession({
+            email: email,
+            password: password
+          });
 
 
-          await setDoc(
-            doc(
-              db,
-              "users",
-              result.user.uid
-            ),
-            {
+          const user =
+            await account.get();
 
-              uid: result.user.uid,
+          openApp(user);
 
-              email: email,
 
-              createdAt:
-                serverTimestamp()
+        } catch (error) {
 
-            }
+          console.error(error);
+
+          showMessage(
+            error.message || "Login failed.",
+            "error"
           );
 
+        } finally {
 
-          showAuthMessage(
-            "Account created successfully.",
-            "success"
-          );
-
-
-        }
-        catch (error) {
-
-          showAuthMessage(
-            error.message
-          );
+          button.disabled = false;
+          button.textContent = "Login";
 
         }
 
@@ -1218,51 +769,86 @@
     );
 
 
+    /* REGISTER */
 
-    // =================================================
-    // LOGIN
-    // =================================================
+    registerForm.addEventListener(
+      "submit",
+      async function(event) {
 
-    loginButton.addEventListener(
-      "click",
-      async () => {
+        event.preventDefault();
+
+        const name =
+          document
+            .getElementById("registerName")
+            .value
+            .trim();
 
         const email =
-          emailInput.value.trim();
-
+          document
+            .getElementById("registerEmail")
+            .value
+            .trim();
 
         const password =
-          passwordInput.value;
+          document
+            .getElementById("registerPassword")
+            .value;
 
 
-        if (!email || !password) {
+        const button =
+          document.getElementById("registerButton");
 
-          showAuthMessage(
-            "Enter your email and password."
-          );
+        button.disabled = true;
+        button.textContent = "Creating...";
 
-          return;
-
-        }
+        showMessage("");
 
 
         try {
 
-          await signInWithEmailAndPassword(
-            auth,
-            email,
-            password
+          await account.create({
+
+            userId: Appwrite.ID.unique(),
+
+            email: email,
+
+            password: password,
+
+            name: name
+
+          });
+
+
+          /* Automatically log the new user in */
+
+          await account.createEmailPasswordSession({
+
+            email: email,
+
+            password: password
+
+          });
+
+
+          const user =
+            await account.get();
+
+          openApp(user);
+
+
+        } catch (error) {
+
+          console.error(error);
+
+          showMessage(
+            error.message || "Account creation failed.",
+            "error"
           );
 
-          authMessage.textContent = "";
+        } finally {
 
-
-        }
-        catch (error) {
-
-          showAuthMessage(
-            error.message
-          );
+          button.disabled = false;
+          button.textContent = "Create account";
 
         }
 
@@ -1270,5 +856,101 @@
     );
 
 
+    /* OPEN NOVA */
 
-    // ===========================
+    function openApp(user) {
+
+      authPage.style.display = "none";
+      appPage.style.display = "block";
+
+
+      const name =
+        user.name || "User";
+
+
+      document
+        .getElementById("topUserName")
+        .textContent = name;
+
+
+      document
+        .getElementById("welcomeText")
+        .textContent =
+        "Welcome back, " + name + ".";
+
+
+      document
+        .getElementById("avatar")
+        .textContent =
+        name.charAt(0).toUpperCase();
+
+    }
+
+
+    /* LOGOUT */
+
+    async function logout() {
+
+      try {
+
+        await account.deleteSession({
+          sessionId: "current"
+        });
+
+      } catch (error) {
+
+        console.error(error);
+
+      }
+
+      appPage.style.display = "none";
+      authPage.style.display = "flex";
+
+      showLogin();
+
+    }
+
+
+    /* CHECK EXISTING LOGIN */
+
+    async function checkLogin() {
+
+      try {
+
+        const user =
+          await account.get();
+
+        openApp(user);
+
+      } catch (error) {
+
+        /* User is not logged in */
+
+        authPage.style.display = "flex";
+        appPage.style.display = "none";
+
+      }
+
+    }
+
+
+    /* Temporary button */
+
+    function comingSoon(feature) {
+
+      alert(
+        feature +
+        " will be added to NOVA next 🚀"
+      );
+
+    }
+
+
+    /* Start */
+
+    checkLogin();
+
+  </script>
+
+</body>
+</html>
