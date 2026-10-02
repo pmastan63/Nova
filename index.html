@@ -1,61 +1,1273 @@
-charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <title>NOVA</title>
 
+
   <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+
     body {
       margin: 0;
-      background: #f7f7f7;
       font-family: Arial, sans-serif;
+      background: #f5f5f5;
       color: #111;
     }
 
-    .box {
-      max-width: 400px;
-      margin: 80px auto;
-      background: white;
-      padding: 30px;
-      border-radius: 16px;
-      border: 1px solid #ddd;
-    }
 
-    h1 {
-      text-align: center;
-    }
-
-    p {
-      text-align: center;
-      color: #777;
-    }
-
+    button,
     input {
-      width: 100%;
-      padding: 14px;
-      margin: 8px 0;
-      box-sizing: border-box;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      font-size: 16px;
+      font-family: inherit;
     }
+
 
     button {
-      width: 100%;
-      padding: 14px;
-      margin-top: 10px;
-      border: 0;
-      border-radius: 8px;
-      background: #111;
-      color: white;
-      font-size: 16px;
       cursor: pointer;
     }
 
-    #home {
+
+    /* =========================
+       AUTH
+       ========================= */
+
+    #authScreen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+
+    .auth-card {
+      width: 100%;
+      max-width: 400px;
+      background: white;
+      border: 1px solid #e5e5e5;
+      border-radius: 22px;
+      padding: 30px;
+    }
+
+
+    .logo {
+      text-align: center;
+      font-size: 34px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+
+    .subtitle {
+      text-align: center;
+      color: #777;
+      margin-bottom: 28px;
+    }
+
+
+    .input {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      margin-bottom: 12px;
+      font-size: 16px;
+      outline: none;
+    }
+
+
+    .input:focus {
+      border-color: #111;
+    }
+
+
+    .primary-button {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      background: #111;
+      color: white;
+      font-size: 16px;
+      margin-top: 5px;
+    }
+
+
+    .secondary-button {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      background: white;
+      color: #111;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+
+
+    .error {
+      color: #d00;
+      font-size: 14px;
+      margin-top: 12px;
+      text-align: center;
+    }
+
+
+    .success {
+      color: #16803c;
+      font-size: 14px;
+      margin-top: 12px;
+      text-align: center;
+    }
+
+
+    /* =========================
+       APP
+       ========================= */
+
+    #app {
+      display: none;
+      min-height: 100vh;
+    }
+
+
+    .app-layout {
+      min-height: 100vh;
+      display: flex;
+    }
+
+
+    /* SIDEBAR */
+
+    .sidebar {
+      width: 240px;
+      background: white;
+      border-right: 1px solid #e5e5e5;
+      padding: 22px 14px;
+      flex-shrink: 0;
+    }
+
+
+    .brand {
+      font-size: 25px;
+      font-weight: bold;
+      padding: 10px 12px 25px;
+    }
+
+
+    .nav-button {
+      width: 100%;
+      border: none;
+      background: transparent;
+      text-align: left;
+      padding: 13px 14px;
+      border-radius: 10px;
+      font-size: 15px;
+      margin-bottom: 5px;
+    }
+
+
+    .nav-button:hover {
+      background: #f2f2f2;
+    }
+
+
+    .nav-button.active {
+      background: #111;
+      color: white;
+    }
+
+
+    .logout {
+      margin-top: 25px;
+    }
+
+
+    /* MAIN */
+
+    .main {
+      flex: 1;
+      min-width: 0;
+      padding: 30px;
+    }
+
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+
+
+    .page-title {
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+
+    .user-email {
+      color: #777;
+      font-size: 13px;
+    }
+
+
+    /* HOME */
+
+    .welcome-card {
+      background: white;
+      border: 1px solid #e5e5e5;
+      border-radius: 18px;
+      padding: 25px;
+      margin-bottom: 20px;
+    }
+
+
+    .welcome-card h2 {
+      margin-top: 0;
+    }
+
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns:
+        repeat(auto-fit, minmax(180px, 1fr));
+      gap: 15px;
+    }
+
+
+    .feature-card {
+      background: white;
+      border: 1px solid #e5e5e5;
+      border-radius: 18px;
+      padding: 22px;
+      min-height: 130px;
+    }
+
+
+    .feature-icon {
+      font-size: 28px;
+      margin-bottom: 15px;
+    }
+
+
+    .feature-card h3 {
+      margin: 0 0 7px;
+    }
+
+
+    .feature-card p {
+      margin: 0;
+      color: #777;
+      font-size: 14px;
+    }
+
+
+    /* =========================
+       CHAT
+       ========================= */
+
+    #chatPage {
       display: none;
     }
 
-    .menu {
-      margin-top: 25px;
+
+    .chat-layout {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      height: calc(100vh - 90px);
+      background: white;
+      border: 1px solid #e5e5e5;
+      border-radius: 18px;
+      overflow: hidden;
     }
-    
+
+
+    .chat-users {
+      border-right: 1px solid #e5e5e5;
+      overflow-y: auto;
+    }
+
+
+    .chat-users-title {
+      padding: 18px;
+      font-weight: bold;
+      border-bottom: 1px solid #eee;
+    }
+
+
+    .user-item {
+      padding: 15px 18px;
+      border-bottom: 1px solid #f0f0f0;
+      cursor: pointer;
+    }
+
+
+    .user-item:hover {
+      background: #f7f7f7;
+    }
+
+
+    .user-item.active {
+      background: #f0f0f0;
+    }
+
+
+    .user-name {
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+
+    .user-id {
+      color: #888;
+      font-size: 11px;
+      margin-top: 4px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+
+    .chat-area {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+
+    .chat-header {
+      padding: 17px 20px;
+      border-bottom: 1px solid #eee;
+      font-weight: bold;
+    }
+
+
+    #messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+      background: #fafafa;
+    }
+
+
+    .message-row {
+      display: flex;
+      margin-bottom: 12px;
+    }
+
+
+    .message-row.mine {
+      justify-content: flex-end;
+    }
+
+
+    .message {
+      max-width: 75%;
+      padding: 10px 13px;
+      border-radius: 14px;
+      background: #e9e9e9;
+      word-wrap: break-word;
+    }
+
+
+    .mine .message {
+      background: #111;
+      color: white;
+    }
+
+
+    .message-time {
+      font-size: 10px;
+      opacity: 0.6;
+      margin-top: 4px;
+    }
+
+
+    .chat-input-area {
+      display: flex;
+      gap: 8px;
+      padding: 12px;
+      border-top: 1px solid #eee;
+    }
+
+
+    #messageInput {
+      flex: 1;
+      padding: 13px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 15px;
+      outline: none;
+    }
+
+
+    #sendButton {
+      width: 80px;
+      border: none;
+      border-radius: 10px;
+      background: #111;
+      color: white;
+    }
+
+
+    .empty-chat {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #888;
+      text-align: center;
+      padding: 20px;
+    }
+
+
+    /* MOBILE */
+
+    @media (max-width: 700px) {
+
+      .sidebar {
+        width: 70px;
+        padding: 15px 8px;
+      }
+
+
+      .brand {
+        font-size: 0;
+        text-align: center;
+        padding: 10px 0 20px;
+      }
+
+
+      .brand::after {
+        content: "🌌";
+        font-size: 25px;
+      }
+
+
+      .nav-button {
+        text-align: center;
+        padding: 12px 4px;
+        font-size: 0;
+      }
+
+
+      .nav-button span {
+        font-size: 20px;
+      }
+
+
+      .logout span {
+        font-size: 20px;
+      }
+
+
+      .main {
+        padding: 15px;
+      }
+
+
+      .topbar {
+        display: block;
+      }
+
+
+      .user-email {
+        margin-top: 6px;
+      }
+
+
+      .chat-layout {
+        grid-template-columns: 1fr;
+        height: calc(100vh - 120px);
+      }
+
+
+      .chat-users {
+        display: none;
+      }
+
+
+      .message {
+        max-width: 85%;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+  <!-- ================================================= -->
+  <!-- LOGIN / SIGN UP -->
+  <!-- ================================================= -->
+
+  <section id="authScreen">
+
+    <div class="auth-card">
+
+      <div class="logo">
+        NOVA 🌌
+      </div>
+
+      <div class="subtitle">
+        Your world. Connected.
+      </div>
+
+
+      <input
+        id="email"
+        class="input"
+        type="email"
+        placeholder="Email"
+      >
+
+
+      <input
+        id="password"
+        class="input"
+        type="password"
+        placeholder="Password"
+      >
+
+
+      <button
+        id="loginButton"
+        class="primary-button"
+      >
+        Login
+      </button>
+
+
+      <button
+        id="signupButton"
+        class="secondary-button"
+      >
+        Create account
+      </button>
+
+
+      <div id="authMessage"></div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- ================================================= -->
+  <!-- MAIN APP -->
+  <!-- ================================================= -->
+
+  <section id="app">
+
+    <div class="app-layout">
+
+
+      <!-- SIDEBAR -->
+
+      <aside class="sidebar">
+
+        <div class="brand">
+          NOVA 🌌
+        </div>
+
+
+        <button
+          class="nav-button active"
+          id="homeButton"
+        >
+          <span>🏠</span>
+          <span class="nav-text"> Home</span>
+        </button>
+
+
+        <button
+          class="nav-button"
+          id="chatButton"
+        >
+          <span>💬</span>
+          <span class="nav-text"> Chat</span>
+        </button>
+
+
+        <button
+          class="nav-button"
+          id="driveButton"
+        >
+          <span>📁</span>
+          <span class="nav-text"> Drive</span>
+        </button>
+
+
+        <button
+          class="nav-button"
+          id="aiButton"
+        >
+          <span>🤖</span>
+          <span class="nav-text"> AI</span>
+        </button>
+
+
+        <button
+          class="nav-button"
+          id="newsButton"
+        >
+          <span>📰</span>
+          <span class="nav-text"> News</span>
+        </button>
+
+
+        <button
+          class="nav-button"
+          id="gamesButton"
+        >
+          <span>🎮</span>
+          <span class="nav-text"> Games</span>
+        </button>
+
+
+        <button
+          class="nav-button"
+          id="profileButton"
+        >
+          <span>👤</span>
+          <span class="nav-text"> Profile</span>
+        </button>
+
+
+        <button
+          class="nav-button logout"
+          id="logoutButton"
+        >
+          <span>🚪</span>
+          <span class="nav-text"> Logout</span>
+        </button>
+
+      </aside>
+
+
+
+      <!-- MAIN -->
+
+      <main class="main">
+
+
+        <!-- HOME -->
+
+        <section id="homePage">
+
+          <div class="topbar">
+
+            <div class="page-title">
+              Home
+            </div>
+
+            <div
+              class="user-email"
+              id="userEmail"
+            ></div>
+
+          </div>
+
+
+          <div class="welcome-card">
+
+            <h2>
+              Welcome to NOVA 🌌
+            </h2>
+
+            <p>
+              One simple place for your messages,
+              files, AI, news and entertainment.
+            </p>
+
+          </div>
+
+
+          <div class="feature-grid">
+
+
+            <div
+              class="feature-card"
+              onclick="openChat()"
+            >
+
+              <div class="feature-icon">
+                💬
+              </div>
+
+              <h3>
+                Chat
+              </h3>
+
+              <p>
+                Talk with friends and family.
+              </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+              <div class="feature-icon">
+                📁
+              </div>
+
+              <h3>
+                NOVA Drive
+              </h3>
+
+              <p>
+                Store and share your files.
+              </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+              <div class="feature-icon">
+                🤖
+              </div>
+
+              <h3>
+                AI Assistant
+              </h3>
+
+              <p>
+                Your personal AI assistant.
+              </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+              <div class="feature-icon">
+                📰
+              </div>
+
+              <h3>
+                News
+              </h3>
+
+              <p>
+                Stay updated.
+              </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+              <div class="feature-icon">
+                🎮
+              </div>
+
+              <h3>
+                Games
+              </h3>
+
+              <p>
+                Play simple games.
+              </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+              <div class="feature-icon">
+                👤
+              </div>
+
+              <h3>
+                Profile
+              </h3>
+
+              <p>
+                Manage your NOVA account.
+              </p>
+
+            </div>
+
+
+          </div>
+
+        </section>
+
+
+
+        <!-- CHAT -->
+
+        <section id="chatPage">
+
+          <div class="topbar">
+
+            <div class="page-title">
+              Chat
+            </div>
+
+          </div>
+
+
+          <div class="chat-layout">
+
+
+            <!-- USERS -->
+
+            <div class="chat-users">
+
+              <div class="chat-users-title">
+                People
+              </div>
+
+              <div id="usersList"></div>
+
+            </div>
+
+
+
+            <!-- CHAT AREA -->
+
+            <div class="chat-area">
+
+
+              <div
+                class="chat-header"
+                id="chatHeader"
+              >
+                Select someone to chat
+              </div>
+
+
+              <div id="messages">
+
+                <div class="empty-chat">
+                  Select a person to start chatting.
+                </div>
+
+              </div>
+
+
+              <div class="chat-input-area">
+
+                <input
+                  id="messageInput"
+                  type="text"
+                  placeholder="Write a message..."
+                  disabled
+                >
+
+
+                <button
+                  id="sendButton"
+                  disabled
+                >
+                  Send
+                </button>
+
+              </div>
+
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+
+        <!-- PLACEHOLDER PAGES -->
+
+        <section
+          id="placeholderPage"
+          style="display:none;"
+        >
+
+          <div class="topbar">
+
+            <div
+              class="page-title"
+              id="placeholderTitle"
+            >
+              NOVA
+            </div>
+
+          </div>
+
+
+          <div class="welcome-card">
+
+            <h2 id="placeholderHeading">
+              Coming soon
+            </h2>
+
+            <p id="placeholderText">
+              This section will be added next.
+            </p>
+
+          </div>
+
+        </section>
+
+
+      </main>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- ================================================= -->
+  <!-- FIREBASE -->
+  <!-- ================================================= -->
+
+  <script type="module">
+
+
+    // FIREBASE APP
+
+    import {
+      initializeApp
+    }
+    from
+      "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+
+
+    // FIREBASE AUTH
+
+    import {
+      getAuth,
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword,
+      onAuthStateChanged,
+      signOut
+    }
+    from
+      "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+
+
+    // FIRESTORE
+
+    import {
+      getFirestore,
+      collection,
+      doc,
+      setDoc,
+      addDoc,
+      query,
+      where,
+      orderBy,
+      onSnapshot,
+      serverTimestamp
+    }
+    from
+      "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+
+
+
+    // =================================================
+    // FIREBASE CONFIG
+    // =================================================
+
+    const firebaseConfig = {
+
+      apiKey:
+        "AIzaSyCoFEKP43y_K1R5IAJApQCltckle51uOtI",
+
+      authDomain:
+        "petrax-nova-9b950.firebaseapp.com",
+
+      projectId:
+        "petrax-nova-9b950",
+
+      storageBucket:
+        "petrax-nova-9b950.firebasestorage.app",
+
+      messagingSenderId:
+        "578838882402",
+
+      appId:
+        "1:578838882402:web:a65d56cc913b438712493b"
+
+    };
+
+
+
+    // =================================================
+    // START FIREBASE
+    // =================================================
+
+    const app =
+      initializeApp(firebaseConfig);
+
+
+    const auth =
+      getAuth(app);
+
+
+    const db =
+      getFirestore(app);
+
+
+
+    // =================================================
+    // ELEMENTS
+    // =================================================
+
+    const authScreen =
+      document.getElementById("authScreen");
+
+
+    const appScreen =
+      document.getElementById("app");
+
+
+    const emailInput =
+      document.getElementById("email");
+
+
+    const passwordInput =
+      document.getElementById("password");
+
+
+    const loginButton =
+      document.getElementById("loginButton");
+
+
+    const signupButton =
+      document.getElementById("signupButton");
+
+
+    const authMessage =
+      document.getElementById("authMessage");
+
+
+    const userEmail =
+      document.getElementById("userEmail");
+
+
+    const homePage =
+      document.getElementById("homePage");
+
+
+    const chatPage =
+      document.getElementById("chatPage");
+
+
+    const placeholderPage =
+      document.getElementById("placeholderPage");
+
+
+    const placeholderTitle =
+      document.getElementById("placeholderTitle");
+
+
+    const placeholderHeading =
+      document.getElementById("placeholderHeading");
+
+
+    const placeholderText =
+      document.getElementById("placeholderText");
+
+
+    const usersList =
+      document.getElementById("usersList");
+
+
+    const chatHeader =
+      document.getElementById("chatHeader");
+
+
+    const messages =
+      document.getElementById("messages");
+
+
+    const messageInput =
+      document.getElementById("messageInput");
+
+
+    const sendButton =
+      document.getElementById("sendButton");
+
+
+
+    // =================================================
+    // AUTH MESSAGE
+    // =================================================
+
+    function showAuthMessage(
+      message,
+      type = "error"
+    ) {
+
+      authMessage.className =
+        type === "success"
+          ? "success"
+          : "error";
+
+      authMessage.textContent =
+        message;
+
+    }
+
+
+
+    // =================================================
+    // CREATE ACCOUNT
+    // =================================================
+
+    signupButton.addEventListener(
+      "click",
+      async () => {
+
+        const email =
+          emailInput.value.trim();
+
+
+        const password =
+          passwordInput.value;
+
+
+        if (!email || !password) {
+
+          showAuthMessage(
+            "Enter an email and password."
+          );
+
+          return;
+
+        }
+
+
+        if (password.length < 6) {
+
+          showAuthMessage(
+            "Password must be at least 6 characters."
+          );
+
+          return;
+
+        }
+
+
+        try {
+
+          const result =
+            await createUserWithEmailAndPassword(
+              auth,
+              email,
+              password
+            );
+
+
+          await setDoc(
+            doc(
+              db,
+              "users",
+              result.user.uid
+            ),
+            {
+
+              uid: result.user.uid,
+
+              email: email,
+
+              createdAt:
+                serverTimestamp()
+
+            }
+          );
+
+
+          showAuthMessage(
+            "Account created successfully.",
+            "success"
+          );
+
+
+        }
+        catch (error) {
+
+          showAuthMessage(
+            error.message
+          );
+
+        }
+
+      }
+    );
+
+
+
+    // =================================================
+    // LOGIN
+    // =================================================
+
+    loginButton.addEventListener(
+      "click",
+      async () => {
+
+        const email =
+          emailInput.value.trim();
+
+
+        const password =
+          passwordInput.value;
+
+
+        if (!email || !password) {
+
+          showAuthMessage(
+            "Enter your email and password."
+          );
+
+          return;
+
+        }
+
+
+        try {
+
+          await signInWithEmailAndPassword(
+            auth,
+            email,
+            password
+          );
+
+          authMessage.textContent = "";
+
+
+        }
+        catch (error) {
+
+          showAuthMessage(
+            error.message
+          );
+
+        }
+
+      }
+    );
+
+
+
+    // ===========================
